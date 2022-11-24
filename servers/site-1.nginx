@@ -1,0 +1,19 @@
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name localhost; # Change this to domain for which traffic is to be redirected
+
+    location / {
+        # Workaround with set $target to avoid error when upstream service is not yet running
+        set $target http://app:8000; # change this to respective container hostname and port
+        resolver 127.0.0.11;
+        proxy_pass $target; 
+
+        include proxy_params;
+
+        access_log /var/log/nginx/site-1.access.log logger-json;
+        error_log /var/log/nginx/site-1.error.log;
+  }
+}
