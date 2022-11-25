@@ -1,5 +1,9 @@
 # Nginx Reverse Proxy with Docker
 
+This containierized Nginx reverse proxy can be deployed on a remote webserver, e.g. DigitalOcean. 
+
+# Getting started
+
 ## Setup Webserver
 
 ### Install Docker
@@ -10,13 +14,43 @@ https://docs.docker.com/engine/install/ubuntu/
 
 Once Docker is installed,
 
-### Configuration of Firewall
+### Configuration of Firewall on the Webserver
 
 To come.
 
-## Setup Nginx
+## Configuration of Nginx
 
-To come.
+The config `/config/nginx.conf` will be loaded as the main `nginx.conf` for Nginx when starting the Docker container. It contains all the necessary configuration. 
+
+### Configuration of Reverse Proxy
+
+The folder `/servers` contains all upstream servers of the reverse proxy. All files with the extension `.nginx` will be loaded by Nginx as configuration files. 
+
+#### Configuration without SSL
+```
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name localhost; # Change this to domain for which traffic is to be redirected
+
+    location / {
+        # Workaround with set $target to avoid error when upstream service is not yet running
+        set $target http://app:8000; # change this to respective container hostname and port
+        resolver 127.0.0.11;
+        proxy_pass $target; 
+
+        include proxy_params;
+
+        access_log /var/log/nginx/site-1.access.log logger-json;
+        error_log /var/log/nginx/site-1.error.log;
+  }
+}
+```
+
+#### Configuration with SSL
+
+It is highly recommended to generate SSL certificates to encrypt the traffic to and from the server.
 
 ## Setup Applications
 
@@ -42,11 +76,11 @@ networks:
 services:
     app:
         networks:
-        - default
-        - reverse-proxy-network
-  db:
-    networks:
-      - default
+            - default
+            - reverse-proxy-network
+    db:
+        networks:
+            - default
 networks:
   reverse-proxy-network:
     external: true
