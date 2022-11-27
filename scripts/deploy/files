@@ -1,0 +1,4 @@
+"../..//./docker-compose.yml"
+"../..//./config/*"
+"../..//./servers/*"
+"../..//./scripts/ssl/*"

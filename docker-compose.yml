@@ -2,17 +2,28 @@ version: '3.8'
 
 services:
     nginx:
-        container_name: reverse-proxy
+        container_name: reverse-proxy-nginx
+        restart: unless-stopped
         image: nginx:1.23.2-alpine
         volumes:
-            - ./config/nginx.conf:/etc/nginx/nginx.conf # nginx.conf
-            - ./servers:/etc/nginx/sites-enabled
-            - ./config/proxy_params.conf:/etc/nginx/proxy_params # proxy params
-            - ./logs/:/var/log/nginx/
+            - ./config/nginx.conf:/etc/nginx/nginx.conf:ro # nginx.conf
+            - ./config/proxy_params.conf:/etc/nginx/proxy_params:ro # proxy params
+            - ./config/servers:/etc/nginx/sites-enabled:ro # services
+            - ./logs/:/var/log/nginx/:rw # logs
+            - ./certbot/conf:/etc/letsencrypt
+            - ./certbot/www:/var/www/certbot
         ports:
             - 80:80
+            - 443:443
         networks:
             - reverse-proxy
+    certbot:
+        container_name: reverse-proxy-certbot
+        restart: unless-stopped
+        image: certbot/certbot:latest
+        volumes:
+            - ./certbot/conf:/etc/letsencrypt
+            - ./certbot/www/:/var/www/certbot
 
 networks:
     reverse-proxy:

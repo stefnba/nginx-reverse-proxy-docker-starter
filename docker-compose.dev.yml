@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+    nginx:
+        container_name: reverse-proxy
+        restart: unless-stopped
+        image: nginx:1.23.2-alpine
+        volumes:
+            - ./config/nginx.conf:/etc/nginx/nginx.conf:ro # nginx.conf
+            - ./servers:/etc/nginx/sites-enabled:ro
+            - ./config/proxy_params.conf:/etc/nginx/proxy_params:ro # proxy params
+            - ./logs/:/var/log/nginx/
+        ports:
+            - 80:80
+        networks:
+            - reverse-proxy
+
+networks:
+    reverse-proxy:
+        name: reverse-proxy
