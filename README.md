@@ -26,6 +26,10 @@ The config `/config/nginx.conf` will be loaded as the main `nginx.conf` for Ngin
 
 The folder `/servers` contains all upstream servers of the reverse proxy. All files with the extension `.nginx` will be loaded by Nginx as configuration files. 
 
+## SSL Encryption with Let's Encrypt and Certbot
+
+Let's Encrypt provides free certificates for TLS encryption which are valid for 90 days and can be renewed. Both initial creation and renewal can be automated using Certbot.
+
 #### Configuration without SSL
 ```
 server {
