@@ -20,13 +20,6 @@
         "eslint.format.enable": true,
         "editor.codeActionsOnSave": {
             "source.fixAll.eslint": true
-        },
-        "sshfs.configs": [
-            {
-                "name": "teest",
-                "username": "stefan",
-                "privateKeyPath": "$HOME/.ssh/myKey"
-            }
-        ]
+        }
     }
 }
