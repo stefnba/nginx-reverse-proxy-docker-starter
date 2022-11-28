@@ -34,4 +34,13 @@ do
     fi
 done
 
+mkdir -p "../../logs"
+
+read -p "Do you want to reload Docker? (Y/N) " decision
+
+if [ "$decision" == "Y" ] || [ "$decision" == "y" ]; then
+    echo "### Reloading Nginx ###"
+    docker compose exec nginx nginx -s reload
+fi
+
 
