@@ -1,7 +1,7 @@
 #!/bin/bash
 
 rsa_key_size=4096
-certbot_path="../../certbot" # certbot conf dir on host
+certbot_path="../../config/certbot" # certbot conf dir on host
 sites_path="../../sites/" # folder where user should place config files for upstream services
 new_domains_path="./_domains/" # temporary folder for domains that require new certificates; destination for copying for conf files from sites_path
 
@@ -130,7 +130,7 @@ done
 # Delete temporary domains dir
 rm -rf $new_domains_path
 
-read -p "Do you want to restart Docker? (Y/N) " decision
+read -p "Do you want to reload Docker? (Y/N) " decision
 
 if [ "$decision" == "Y" ] || [ "$decision" == "y" ]; then
     echo "### Reloading Nginx ###"

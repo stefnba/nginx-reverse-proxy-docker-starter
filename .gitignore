@@ -2,6 +2,6 @@
 
 .env
 logs
-certbot
+config/certbot
 config/sites/*
 sites/*
