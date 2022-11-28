@@ -12,7 +12,7 @@ cd $(dirname $0)
 
 if ! [ -d "$certbot_path" ]; 
     then
-        ./init-ssh.sh
+        ./init-ssl.sh
     else 
         docker compose up -d nginx
 fi
