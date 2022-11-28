@@ -1,8 +1,8 @@
 #!/bin/bash
 
 rsa_key_size=4096
-certbot_path="../../config/certbot" # certbot conf dir on host
-sites_path="../../sites/" # folder where user should place config files for upstream services
+certbot_path="../config/certbot" # certbot conf dir on host
+sites_path="../sites/" # folder where user should place config files for upstream services
 new_domains_path="./_domains/" # temporary folder for domains that require new certificates; destination for copying for conf files from sites_path
 
 staging=1 # Set to 1 for testing to avoid hitting request limits

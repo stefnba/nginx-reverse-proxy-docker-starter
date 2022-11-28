@@ -5,9 +5,9 @@
 # Script should be run every time config files changes
 ##
 
-template_path="../../templates"
-sites_path="../../sites"
-output_path="../../config/sites"
+template_path="../templates"
+sites_path="../sites"
+output_path="../config/sites"
 
 cd $(dirname $0)
 
@@ -34,13 +34,19 @@ do
     fi
 done
 
-mkdir -p "../../logs"
+mkdir -p "../logs"
 
-read -p "Do you want to reload Docker? (Y/N) " decision
 
-if [ "$decision" == "Y" ] || [ "$decision" == "y" ]; then
-    echo "### Reloading Nginx ###"
-    docker compose exec nginx nginx -s reload
+
+if ! [ "$1" == "no-reload" ];
+    then
+        read -p "Do you want to reload Docker? (Y/N) " decision
+
+        if [ "$decision" == "Y" ] || [ "$decision" == "y" ]; then
+            echo "### Reloading Nginx ###"
+            docker compose exec nginx nginx -s reload
+        fi
 fi
+
 
 
